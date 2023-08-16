@@ -2,7 +2,7 @@
 
 
 ## QN-1:
-```python:
+```python
 import csv
 a = []
 with open("Datasets\enjoysport.csv", "r") as csvfile:
@@ -32,7 +32,7 @@ OUTPUT:
 ---
 
 ## QN-2:
-```python:
+```python
 import numpy as np
 import pandas as pd
 data = pd.DataFrame(data=pd.read_csv("Datasets\enjoysport.csv"))

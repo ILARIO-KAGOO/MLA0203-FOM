@@ -335,10 +335,199 @@ OUTPUT:
 
 ### QN-7:
 ```python 
+# Step 1: Import the required modules
+from sklearn.datasets import make_classification
+from matplotlib import pyplot as plt
+from sklearn.linear_model import LogisticRegression
+from sklearn.model_selection import train_test_split
+from sklearn.metrics import confusion_matrix
+import pandas as pd
+
+# Step 2: Generate the dataset
+x, y = make_classification(
+    n_samples=100,
+    n_features=1,
+    n_classes=2,
+    n_clusters_per_class=1,
+    flip_y=0.03,
+    n_informative=1,
+    n_redundant=0,
+    n_repeated=0
+)
+print(y)
+
+# Step 3: visualize the data
+plt.scatter(x, y, c=y, cmap='rainbow')
+plt.title('Scatter Plot of Logistic Regression')
+plt.show()
+
+# Step 4: Split the dataset
+x_train, x_test, y_train, y_test = train_test_split(x, y, random_state=1)
+
+x_train.shape
+
+# Step 4: Perform Logistic Regression
+log_reg = LogisticRegression()
+log_reg.fit(x_train, y_train)
+
+# Step 5: Make prediction using the model
+y_pred = log_reg.predict(x_test)
+
+# Step 6: Display the Confusion Matrix
+confusion_matrix(y_test, y_pred)
 
 ```
 OUTPUT:
 
 ![QN-7](/Output/QN-7.png)
+
+---
+
+### QN-8:
+```python 
+import numpy as np
+import matplotlib.pyplot as plt
+from sklearn.linear_model import LinearRegression
+
+# Generate sample data
+np.random.seed(0)
+X = np.linspace(0, 10, 100).reshape(-1, 1)
+y = 2 * X + 1 + np.random.randn(100, 1)
+
+# Create linear regression object
+lr_model = LinearRegression()
+
+# Train the model using the training sets
+lr_model.fit(X, y)
+
+# Print the coefficients
+print('Coefficients: ', lr_model.coef_)
+print('Intercept: ', lr_model.intercept_)
+
+# Plot the data and the linear regression line
+plt.scatter(X, y, color='blue')
+plt.plot(X, lr_model.predict(X), color='red', linewidth=3)
+plt.title('Linear Regression')
+plt.xlabel('X')
+plt.ylabel('y')
+plt.show()
+
+```
+OUTPUT:
+
+![QN-8](/Output/QN-8.png)
+
+---
+
+### QN-9:
+```python 
+import numpy as np
+from sklearn.linear_model import LinearRegression
+import matplotlib.pyplot as plt
+
+# Create some sample data
+X = np.array([1, 2, 3, 4, 5]).reshape(-1, 1)
+y = np.array([2, 4, 5, 4, 5]).reshape(-1, 1)
+
+# Create a linear regression object and fit the data
+reg = LinearRegression().fit(X, y)
+
+# Predict new values
+X_new = np.array([6]).reshape(-1, 1)
+y_pred = reg.predict(X_new)
+
+# Plot the data and the linear regression line
+plt.scatter(X, y)
+plt.plot(X, reg.predict(X), color='red')
+plt.show()
+
+import numpy as np
+from sklearn.linear_model import LinearRegression
+from sklearn.preprocessing import PolynomialFeatures
+import matplotlib.pyplot as plt
+
+# Create some sample data
+X = np.array([1, 2, 3, 4, 5]).reshape(-1, 1)
+y = np.array([2, 4, 5, 4, 5]).reshape(-1, 1)
+
+# Transform the data to include another axis
+poly = PolynomialFeatures(degree=2)
+X_poly = poly.fit_transform(X)
+
+# Create a polynomial regression object and fit the data
+reg = LinearRegression().fit(X_poly, y)
+
+# Predict new values
+X_new = np.array([6]).reshape(-1, 1)
+X_new_poly = poly.transform(X_new)
+y_pred = reg.predict(X_new_poly)
+
+# Plot the data and the polynomial regression curve
+plt.scatter(X, y)
+plt.plot(X, reg.predict(X_poly), color='red')
+plt.show()
+
+```
+OUTPUT:
+
+![QN-9](/Output/QN-9.png)
+![QN-9(ii)](/Output/QN-9%20(ii).png)
+
+---
+
+### QN-10:
+```python 
+import numpy as np
+from scipy.stats import norm
+
+# Define the data
+data = np.array([1.2, 2.3, 0.7, 1.6, 1.1, 1.8, 0.9, 2.2])
+
+# Initialize the parameters
+mu1 = 0
+mu2 = 1
+sigma1 = 1
+sigma2 = 1
+p1 = 0.5
+p2 = 0.5
+
+# Run the EM algorithm
+for i in range(10):
+    # E-step
+    likelihood1 = norm.pdf(data, mu1, sigma1)
+    likelihood2 = norm.pdf(data, mu2, sigma2)
+    weight1 = p1 * likelihood1 / (p1 * likelihood1 + p2 * likelihood2)
+    weight2 = p2 * likelihood2 / (p1 * likelihood1 + p2 * likelihood2)
+    
+    # M-step
+    mu1 = np.sum(weight1 * data) / np.sum(weight1)
+    mu2 = np.sum(weight2 * data) / np.sum(weight2)
+    sigma1 = np.sqrt(np.sum(weight1 * (data - mu1)**2) / np.sum(weight1))
+    sigma2 = np.sqrt(np.sum(weight2 * (data - mu2)**2) / np.sum(weight2))
+    p1 = np.mean(weight1)
+    p2 = np.mean(weight2)
+
+# Print the final estimates of the parameters
+print("mu1:", mu1)
+print("mu2:", mu2)
+print("sigma1:", sigma1)
+print("sigma2:", sigma2)
+print("p1:", p1)
+print("p2:", p2)
+
+```
+OUTPUT:
+
+![QN-10](/Output/QN-10.png)
+
+---
+
+### QN-11:
+```python 
+
+```
+OUTPUT:
+
+![QN-11](/Output/QN-11.png)
 
 ---

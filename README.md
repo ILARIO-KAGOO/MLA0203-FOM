@@ -1,7 +1,7 @@
 # MLA0203-Fundamentals of Machine learning
 
 
-### QN-1:
+### QN-1(Find_S_Algorithm):
 ```python
 import csv
 a = []
@@ -31,7 +31,7 @@ OUTPUT:
 
 ---
 
-### QN-2:
+### QN-2(Candidate_Elimination_Algorithm):
 ```python
 import numpy as np
 import pandas as pd
@@ -78,7 +78,7 @@ OUTPUT:
 
 ---
 
-### QN-3:
+### QN-3(Decision_Tree_Algorithm):
 ```python 
 import math
 import csv
@@ -208,7 +208,7 @@ OUTPUT:
 
 ---
 
-### QN-4:
+### QN-4(Back_Propogation_Algorithm):
 ```python
 
 import numpy as np
@@ -271,7 +271,7 @@ OUTPUT:
 
 ---
 
-### QN-5:
+### QN-5(KNN_Alogrithm):
 ```python 
 from math import sqrt
 from statistics import mode
@@ -302,7 +302,7 @@ OUTPUT:
 
 ---
 
-### QN-6:
+### QN-6(Naive_Bayes_Algorithm): 
 ```python
 from sklearn.datasets import load_iris
 from sklearn.naive_bayes import GaussianNB
@@ -333,7 +333,7 @@ OUTPUT:
 
 ---
 
-### QN-7:
+### QN-7(Logistic_Regression):
 ```python 
 # Step 1: Import the required modules
 from sklearn.datasets import make_classification
@@ -383,7 +383,7 @@ OUTPUT:
 
 ---
 
-### QN-8:
+### QN-8(Linear_Regression):
 ```python 
 import numpy as np
 import matplotlib.pyplot as plt
@@ -419,7 +419,7 @@ OUTPUT:
 
 ---
 
-### QN-9:
+### QN-9(Polynomial_Regression):
 ```python 
 import numpy as np
 from sklearn.linear_model import LinearRegression
@@ -475,7 +475,7 @@ OUTPUT:
 
 ---
 
-### QN-10:
+### QN-10(EM_Algorithm):
 ```python 
 import numpy as np
 from scipy.stats import norm

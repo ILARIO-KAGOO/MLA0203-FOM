@@ -497,7 +497,7 @@ OUTPUT:
 
 ---
 
-### QN-11:
+### QN-11(Credit_Score_Classification):
 ```python 
 import pandas as pd
 import numpy as np
@@ -561,7 +561,7 @@ OUTPUT:
 
 ---
 
-### QN-12:
+### QN-12(Iris_Classification_using_KNN):
 ```python 
 import pandas as pd
 import matplotlib.pyplot as plt
@@ -598,7 +598,7 @@ OUTPUT:
 
 ---
 
-### QN-13:
+### QN-13(Car_Prediction):
 ```python 
 
 ```

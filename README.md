@@ -335,7 +335,6 @@ OUTPUT:
 
 ### QN-7(Logistic_Regression):
 ```python 
-# Step 1: Import the required modules
 from sklearn.datasets import make_classification
 from matplotlib import pyplot as plt
 from sklearn.linear_model import LogisticRegression
@@ -343,7 +342,6 @@ from sklearn.model_selection import train_test_split
 from sklearn.metrics import confusion_matrix
 import pandas as pd
 
-# Step 2: Generate the dataset
 x, y = make_classification(
     n_samples=100,
     n_features=1,
@@ -356,24 +354,19 @@ x, y = make_classification(
 )
 print(y)
 
-# Step 3: visualize the data
 plt.scatter(x, y, c=y, cmap='rainbow')
 plt.title('Scatter Plot of Logistic Regression')
 plt.show()
 
-# Step 4: Split the dataset
 x_train, x_test, y_train, y_test = train_test_split(x, y, random_state=1)
 
 x_train.shape
 
-# Step 4: Perform Logistic Regression
 log_reg = LogisticRegression()
 log_reg.fit(x_train, y_train)
 
-# Step 5: Make prediction using the model
 y_pred = log_reg.predict(x_test)
 
-# Step 6: Display the Confusion Matrix
 confusion_matrix(y_test, y_pred)
 
 ```
@@ -389,22 +382,17 @@ import numpy as np
 import matplotlib.pyplot as plt
 from sklearn.linear_model import LinearRegression
 
-# Generate sample data
 np.random.seed(0)
 X = np.linspace(0, 10, 100).reshape(-1, 1)
 y = 2 * X + 1 + np.random.randn(100, 1)
 
-# Create linear regression object
 lr_model = LinearRegression()
 
-# Train the model using the training sets
 lr_model.fit(X, y)
 
-# Print the coefficients
 print('Coefficients: ', lr_model.coef_)
 print('Intercept: ', lr_model.intercept_)
 
-# Plot the data and the linear regression line
 plt.scatter(X, y, color='blue')
 plt.plot(X, lr_model.predict(X), color='red', linewidth=3)
 plt.title('Linear Regression')
@@ -425,18 +413,14 @@ import numpy as np
 from sklearn.linear_model import LinearRegression
 import matplotlib.pyplot as plt
 
-# Create some sample data
 X = np.array([1, 2, 3, 4, 5]).reshape(-1, 1)
 y = np.array([2, 4, 5, 4, 5]).reshape(-1, 1)
 
-# Create a linear regression object and fit the data
 reg = LinearRegression().fit(X, y)
 
-# Predict new values
 X_new = np.array([6]).reshape(-1, 1)
 y_pred = reg.predict(X_new)
 
-# Plot the data and the linear regression line
 plt.scatter(X, y)
 plt.plot(X, reg.predict(X), color='red')
 plt.show()
@@ -446,23 +430,18 @@ from sklearn.linear_model import LinearRegression
 from sklearn.preprocessing import PolynomialFeatures
 import matplotlib.pyplot as plt
 
-# Create some sample data
 X = np.array([1, 2, 3, 4, 5]).reshape(-1, 1)
 y = np.array([2, 4, 5, 4, 5]).reshape(-1, 1)
 
-# Transform the data to include another axis
 poly = PolynomialFeatures(degree=2)
 X_poly = poly.fit_transform(X)
 
-# Create a polynomial regression object and fit the data
 reg = LinearRegression().fit(X_poly, y)
 
-# Predict new values
 X_new = np.array([6]).reshape(-1, 1)
 X_new_poly = poly.transform(X_new)
 y_pred = reg.predict(X_new_poly)
 
-# Plot the data and the polynomial regression curve
 plt.scatter(X, y)
 plt.plot(X, reg.predict(X_poly), color='red')
 plt.show()
@@ -480,10 +459,8 @@ OUTPUT:
 import numpy as np
 from scipy.stats import norm
 
-# Define the data
 data = np.array([1.2, 2.3, 0.7, 1.6, 1.1, 1.8, 0.9, 2.2])
 
-# Initialize the parameters
 mu1 = 0
 mu2 = 1
 sigma1 = 1
@@ -491,7 +468,6 @@ sigma2 = 1
 p1 = 0.5
 p2 = 0.5
 
-# Run the EM algorithm
 for i in range(10):
     # E-step
     likelihood1 = norm.pdf(data, mu1, sigma1)
@@ -507,7 +483,6 @@ for i in range(10):
     p1 = np.mean(weight1)
     p2 = np.mean(weight2)
 
-# Print the final estimates of the parameters
 print("mu1:", mu1)
 print("mu2:", mu2)
 print("sigma1:", sigma1)
@@ -524,10 +499,111 @@ OUTPUT:
 
 ### QN-11:
 ```python 
+import pandas as pd
+import numpy as np
+import plotly.express as px   
+import plotly.graph_objects as go
+import plotly.io as pio
+from sklearn.model_selection import train_test_split
+from sklearn.preprocessing import StandardScaler
+from sklearn.ensemble import RandomForestClassifier
+
+pio.templates.default = "plotly_white"
+
+data = pd.read_csv("Datasets\CREDITSCORE.csv")
+
+print(data.describe())
+
+x = data[["Annual_Income", "Monthly_Inhand_Salary", 
+          "Num_Bank_Accounts", "Num_Credit_Card", 
+          "Interest_Rate", "Num_of_Loan", 
+          "Delay_from_due_date", "Num_of_Delayed_Payment", 
+          "Credit_Mix", "Outstanding_Debt", 
+          "Credit_History_Age", "Monthly_Balance"]]
+y = data[["Credit_Score"]]
+
+x.loc[:, "Credit_Mix"] = x["Credit_Mix"].map({"Bad": 0, "Standard": 1, "Good": 2})
+
+scaler = StandardScaler()
+x_scaled = scaler.fit_transform(x)
+
+xtrain, xtest, ytrain, ytest = train_test_split(x_scaled, y, 
+                                                test_size=0.33, 
+                                                random_state=42)
+
+model = RandomForestClassifier()
+model.fit(xtrain, ytrain.values.ravel())
+
+print("Credit Score Prediction : ")
+a = float(input("Annual Income: "))
+b = float(input("Monthly Inhand Salary: "))
+c = float(input("Number of Bank Accounts: "))
+d = float(input("Number of Credit cards: "))
+e = float(input("Interest rate: "))
+f = float(input("Number of Loans: "))
+g = float(input("Average number of days delayed by the person: "))
+h = float(input("Number of delayed payments: "))
+i = input("Credit Mix (Bad: 0, Standard: 1, Good: 2) : ")
+j = float(input("Outstanding Debt: "))
+k = float(input("Credit History Age: "))
+l = float(input("Monthly Balance: "))
+
+credit_mix_map = {"Bad": 0, "Standard": 1, "Good": 2}
+i = credit_mix_map.get(i)
+
+features = np.array([[a, b, c, d, e, f, g, h, i, j, k, l]])
+print("Predicted Credit Score = ", model.predict(features))
 
 ```
 OUTPUT:
 
 ![QN-11](/Output/QN-11.png)
+
+---
+
+### QN-12:
+```python 
+import pandas as pd
+import matplotlib.pyplot as plt
+import numpy as np
+iris = pd.read_csv("Datasets\iris.csv")
+print(iris.head()) 
+print()
+print(iris.describe())
+print("Target Labels", iris["species"].unique())
+
+import plotly.io as io
+import plotly.express as px
+fig = px.scatter(iris, x="sepal_width", y="sepal_length", color="species")
+fig.show()
+x = iris.drop("species", axis=1)
+y = iris["species"]
+from sklearn.model_selection import train_test_split
+x_train, x_test, y_train, y_test = train_test_split(x, y,test_size=0.2,random_state=0)
+
+from sklearn.neighbors import KNeighborsClassifier
+knn = KNeighborsClassifier(n_neighbors=1)
+knn.fit(x_train, y_train)
+
+x_new = np.array([[6, 2.9, 1, 0.2]])
+prediction = knn.predict(x_new)
+print("Prediction: {}".format(prediction))
+
+```
+OUTPUT:
+
+![QN-12](/Output/QN-12.png)
+
+![QN-12 (ii)](/Output/QN-12%20(ii).png)
+
+---
+
+### QN-13:
+```python 
+
+```
+OUTPUT:
+
+![QN-13](/Output/QN-13.png)
 
 ---

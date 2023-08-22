@@ -1,40 +1,26 @@
-# Step 1: Import the required modules
-from sklearn.datasets import make_classification
-from matplotlib import pyplot as plt
-from sklearn.linear_model import LogisticRegression
-from sklearn.model_selection import train_test_split
-from sklearn.metrics import confusion_matrix
-import pandas as pd
+import numpy as np
+import matplotlib.pyplot as plt
+from sklearn.linear_model import LinearRegression
 
-# Step 2: Generate the dataset
-x, y = make_classification(
-    n_samples=100,
-    n_features=1,
-    n_classes=2,
-    n_clusters_per_class=1,
-    flip_y=0.03,
-    n_informative=1,
-    n_redundant=0,
-    n_repeated=0
-)
-print(y)
+# Generate sample data
+np.random.seed(0)
+X = np.linspace(0, 10, 100).reshape(-1, 1)
+y = 2 * X + 1 + np.random.randn(100, 1)
 
-# Step 3: visualize the data
-plt.scatter(x, y, c=y, cmap='rainbow')
-plt.title('Scatter Plot of Logistic Regression')
+# Create linear regression object
+lr_model = LinearRegression()
+
+# Train the model using the training sets
+lr_model.fit(X, y)
+
+# Print the coefficients
+print('Coefficients: ', lr_model.coef_)
+print('Intercept: ', lr_model.intercept_)
+
+# Plot the data and the linear regression line
+plt.scatter(X, y, color='blue')
+plt.plot(X, lr_model.predict(X), color='red', linewidth=3)
+plt.title('Linear Regression')
+plt.xlabel('X')
+plt.ylabel('y')
 plt.show()
-
-# Step 4: Split the dataset
-x_train, x_test, y_train, y_test = train_test_split(x, y, random_state=1)
-
-x_train.shape
-
-# Step 4: Perform Logistic Regression
-log_reg = LogisticRegression()
-log_reg.fit(x_train, y_train)
-
-# Step 5: Make prediction using the model
-y_pred = log_reg.predict(x_test)
-
-# Step 6: Display the Confusion Matrix
-confusion_matrix(y_test, y_pred)

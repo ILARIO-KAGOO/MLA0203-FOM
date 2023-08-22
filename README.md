@@ -758,3 +758,164 @@ OUTPUT:
 ![QN-16](/Output/QN-16.png)
 
 ---
+
+### QN-17(Mobile_Price_Classification):
+```python 
+import numpy as np
+import pandas as pd
+import matplotlib.pyplot as plt
+import seaborn as sns
+from sklearn.model_selection import train_test_split
+from sklearn.preprocessing import StandardScaler
+from sklearn.linear_model import LogisticRegression
+from sklearn.metrics import accuracy_score
+
+data = pd.read_csv("Datasets\mobile_prices.csv")
+print(data.head())
+plt.figure(figsize=(12, 10))
+sns.heatmap(data.corr(), annot=True, cmap="coolwarm", linecolor='white', linewidths=1)
+
+x = data.iloc[:, :-1].values
+y = data.iloc[:, -1].values
+x = StandardScaler().fit_transform(x)
+x_train, x_test, y_train, y_test = train_test_split(x, y, test_size=0.20, random_state=0)
+
+from sklearn.linear_model import LogisticRegression
+lreg = LogisticRegression()
+lreg.fit(x_train, y_train)
+y_pred = lreg.predict(x_test)
+
+accuracy = accuracy_score(y_test, y_pred) * 100
+print("Accuracy of the Logistic Regression Model: ",accuracy)
+
+(unique, counts) = np.unique(y_pred, return_counts=True)
+price_range = np.asarray((unique, counts)).T
+print(price_range)
+
+```
+OUTPUT:
+
+![QN-17](/Output/QN-17.png)
+
+---
+
+### QN-18(Perceptron_Iris_Classsification):
+```python 
+from sklearn import datasets
+import numpy as np
+from sklearn.model_selection import train_test_split
+from sklearn.linear_model import Perceptron
+from sklearn.preprocessing import StandardScaler
+from sklearn.metrics import accuracy_score
+ 
+iris = datasets.load_iris()
+X = iris.data[:, [2, 3]]
+y = iris.target
+ 
+X_train, X_test, y_train, y_test = train_test_split(
+ X, y, test_size=0.3, random_state=1, stratify=y)
+sc = StandardScaler()
+sc.fit(X_train)
+X_train_std = sc.transform(X_train)
+X_test_std = sc.transform(X_test)
+ 
+ppn = Perceptron(eta0=0.1, random_state=1)
+ppn.fit(X_train_std, y_train)
+y_pred = ppn.predict(X_test_std)
+ 
+print('Accuracy: %.3f' % accuracy_score(y_test, y_pred))
+print('Mean Accuracy: %.3f' % ppn.score(X_test_std, y_test))
+
+```
+OUTPUT:
+
+![QN-18](/Output/QN-18.png)
+
+---
+
+### QN-19(Naive_Bayes_Algorithm_(Breast_Cancer)):
+```python 
+import numpy as np
+import pandas as pd
+
+dataset = pd.read_csv("Datasets\\breastcancer.csv")
+X = dataset.iloc[:, :-1].values
+y = dataset.iloc[:, -1].values
+
+from sklearn.model_selection import train_test_split
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size = 0.25, random_state = 0)
+from sklearn.preprocessing import StandardScaler
+sc = StandardScaler()
+X_train = sc.fit_transform(X_train)
+X_test = sc.transform(X_test)
+
+from sklearn.naive_bayes import GaussianNB
+classifier = GaussianNB()
+classifier.fit(X_train, y_train)
+GaussianNB(priors=None, var_smoothing=1e-09)
+
+from sklearn.metrics import confusion_matrix, accuracy_score
+y_pred = classifier.predict(X_test)
+cm = confusion_matrix(y_test, y_pred)
+print(cm)
+accuracy_score(y_test, y_pred)
+
+```
+OUTPUT:
+
+![QN-19](/Output/QN-19.png)
+
+---
+
+### QN-20(Future_Sales_Prediction):
+```python 
+import pandas as pd
+import numpy as np
+from sklearn.model_selection import train_test_split
+from sklearn.linear_model import LinearRegression
+import plotly.io as io
+io.renderers.default='browser'
+
+data = pd.read_csv("Datasets\\futuresale prediction.csv")
+print(data.head())
+print(data.sample(5))
+print(data.isnull().sum())
+
+import plotly.express as px
+import plotly.graph_objects as go
+figure = px.scatter(data_frame = data, x="Sales",
+                    y="TV", size="TV", trendline="ols")
+figure.show()
+
+figure = px.scatter(data_frame = data, x="Sales",
+                    y="Newspaper", size="Newspaper", trendline="ols")
+figure.show()
+
+figure = px.scatter(data_frame = data, x="Sales",
+                    y="Radio", size="Radio", trendline="ols")
+figure.show()
+
+correlation = data.corr()
+print(correlation["Sales"].sort_values(ascending=False))
+x = np.array(data.drop(["Sales"], axis=1))
+y = np.array(data["Sales"])
+
+
+
+xtrain, xtest, ytrain, ytest = train_test_split(x, y,   test_size=0.2, random_state=42)
+model = LinearRegression()
+model.fit(xtrain, ytrain)
+print(model.score(xtest, ytest))
+features = [["TV", "Radio", "Newspaper"]]
+features = np.array([[230.1, 37.8, 69.2]])
+print(model.predict(features))
+
+```
+OUTPUT:
+
+![QN-20](/Output/QN-20.png)
+![QN-20 (ii)](/Output/QN-20%20(ii).png)
+![QN-20 (iii)](/Output/QN-20%20(iii).png)
+![QN-20 (iv)](/Output/QN-20%20(iv).png)
+
+---

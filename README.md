@@ -608,10 +608,8 @@ from sklearn.model_selection import train_test_split
 from sklearn.tree import DecisionTreeRegressor
 from sklearn.metrics import mean_absolute_error
 
-# Importing the dataset
 data = pd.read_csv("CarPrice.csv")
 
-# Feature selection
 selected_features = ["symboling", "wheelbase", "carlength", "carwidth", "carheight",
                      "curbweight", "enginesize", "boreratio", "stroke", "compressionratio",
                      "horsepower", "peakrpm", "citympg", "highwaympg"]
@@ -619,14 +617,11 @@ selected_features = ["symboling", "wheelbase", "carlength", "carwidth", "carheig
 X = data[selected_features].values
 y = data["price"].values
 
-# Splitting the data
 xtrain, xtest, ytrain, ytest = train_test_split(X, y, test_size=0.2, random_state=42)
 
-# Model training
 model = DecisionTreeRegressor()
 model.fit(xtrain, ytrain)
 
-# Model evaluation
 r2_score = model.score(xtest, ytest)
 print("R-squared Score:", r2_score)
 
@@ -642,10 +637,124 @@ OUTPUT:
 
 ### QN-14(House_price_Prediction):
 ```python 
+import pandas as pd
+from sklearn.model_selection import train_test_split
+from sklearn.linear_model import LinearRegression
+from sklearn.metrics import mean_squared_error, r2_score
+
+data = {
+    'PlotArea': [6900000, 3500000, 5700000, 22500000, 46000000],
+    'Year': [2010, 2016, 2012, 2018, 2015],
+    'Exterior': ['vinylSd', 'Metalsd', 'HdBoard', 'Metalsd', 'HdBoard'],
+    'Price': [6000, 12000, 8000, 15000, 10000]
+}
+
+df = pd.DataFrame(data)
+df = pd.get_dummies(df, columns=['Exterior'])
+X = df.drop('Price', axis=1)
+y = df['Price']
+print(df)
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
+model = LinearRegression()
+model.fit(X_train, y_train)
+
+y_pred = model.predict(X_test)
+
+
+mse = mean_squared_error(y_test, y_pred)
+r2 = r2_score(y_test, y_pred)
+print("\n")
+print(f"Mean Squared Error: {mse}")
+print(f"R-squared: {r2}")
+
+new_house_features = {
+    'PlotArea': [40000],
+    'Year': [2017],
+    'Exterior_HdBoard': [0],
+    'Exterior_Metalsd': [1],
+    'Exterior_vinylSd': [0]
+}
+
+new_house_df = pd.DataFrame(new_house_features)
+predicted_price = model.predict(new_house_df)
+
+print(f"Predicted Price for the new House: {predicted_price[0]}")
+
 
 ```
 OUTPUT:
 
 ![QN-14](/Output/QN-14.png)
+
+---
+
+### QN-15(Naive_Iris_Classification):
+```python 
+from sklearn.naive_bayes import GaussianNB
+from sklearn.naive_bayes import MultinomialNB
+from sklearn import datasets
+from sklearn.metrics import confusion_matrix
+iris = datasets.load_iris()
+gnb = GaussianNB()
+mnb = MultinomialNB()
+y_pred_gnb = gnb.fit(iris.data, iris.target).predict(iris.data)
+cnf_matrix_gnb = confusion_matrix(iris.target, y_pred_gnb)
+print("Confusion Matrix of GNB \n",cnf_matrix_gnb)
+
+y_pred_mnb = mnb.fit(iris.data, iris.target).predict(iris.data)
+cnf_matrix_mnb = confusion_matrix(iris.target, y_pred_mnb)
+print("Confusion Matrix of MNB \n",cnf_matrix_mnb)
+
+```
+OUTPUT:
+
+![QN-15](/Output/QN-15.png)
+
+---
+### QN-16(Comparison_of_Classification_Algorithm):
+```python 
+import numpy
+import pandas as pd
+import numpy as np
+from sklearn.model_selection import train_test_split
+from sklearn.tree import DecisionTreeClassifier
+from sklearn.linear_model import LogisticRegression
+from sklearn.naive_bayes import BernoulliNB
+from sklearn.neighbors import KNeighborsClassifier
+from sklearn.linear_model import PassiveAggressiveClassifier
+from sklearn.metrics import classification_report
+
+iris= pd.read_csv("Datasets/iris.csv")
+print(iris.head())
+
+x = iris.drop("species", axis=1)
+y = iris["species"]
+
+x_train, x_test, y_train, y_test = train_test_split(x, y,test_size=0.2,random_state=42)
+
+
+decisiontree = DecisionTreeClassifier()
+logisticregression = LogisticRegression()
+knearestclassifier = KNeighborsClassifier()
+bernoulli_naiveBayes = BernoulliNB()
+passiveAggressive = PassiveAggressiveClassifier()
+
+knearestclassifier.fit(x_train, y_train)
+decisiontree.fit(x_train, y_train)
+logisticregression.fit(x_train, y_train)
+passiveAggressive.fit(x_train, y_train)
+
+data1 = {"Classification Algorithms": ["KNN Classifier", "Decision Tree Classifier", 
+                                       "Logistic Regression", "Passive Aggressive Classifier"],
+      "Score": [knearestclassifier.score(x,y), decisiontree.score(x, y), 
+                logisticregression.score(x, y), passiveAggressive.score(x,y) ]}
+score = pd.DataFrame(data1)
+print("\n\n",score)
+
+
+```
+OUTPUT:
+
+![QN-16](/Output/QN-16.png)
 
 ---
